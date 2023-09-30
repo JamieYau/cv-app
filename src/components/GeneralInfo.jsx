@@ -1,5 +1,5 @@
 import "../styles/GeneralInfo.css";
-// section to add general inforamtion like name, email and phone number with input.
+
 export default function GeneralInfo() {
   return (
     <form className="general-info">
@@ -15,6 +15,9 @@ export default function GeneralInfo() {
       <div className="input-container">
         <label htmlFor="phone">Phone</label>
         <input type="tel" id="phone" name="phone" />
+      </div>
+      <div className="button-container">
+        <button type="submit">Save</button>
       </div>
     </form>
   );
