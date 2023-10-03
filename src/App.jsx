@@ -73,6 +73,13 @@ function App() {
       required: true,
     },
     {
+      label: "Description",
+      name: "description",
+      type: "textarea",
+      initialValue: "",
+      required: true,
+    },
+    {
       label: "Start Date",
       name: "startDate",
       type: "date",

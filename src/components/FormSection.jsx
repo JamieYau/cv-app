@@ -2,7 +2,7 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import "../styles/FormSection.css";
 
-export default function FormSection({ fields, heading }) {
+export default function FormSection({ heading, fields }) {
   const [submitted, setSubmitted] = useState(false);
   const [fieldData, setFieldData] = useState(
     fields.reduce((acc, field) => {
@@ -52,14 +52,24 @@ export default function FormSection({ fields, heading }) {
       {fields.map((field) => (
         <div className="input-container" key={field.name}>
           <label htmlFor={field.name}>{field.label}</label>
-          <input
-            type={field.type}
-            id={field.name}
-            name={field.name}
-            required={field.required}
-            value={fieldData[field.name]}
-            onChange={handleFieldChange}
-          />
+          {field.type === "textarea" ? (
+            <textarea
+              id={field.name}
+              name={field.name}
+              required={field.required}
+              value={fieldData[field.name]}
+              onChange={handleFieldChange}
+            />
+          ) : (
+            <input
+              type={field.type}
+              id={field.name}
+              name={field.name}
+              required={field.required}
+              value={fieldData[field.name]}
+              onChange={handleFieldChange}
+            />
+          )}
         </div>
       ))}
       <div className="button-container">
@@ -70,6 +80,7 @@ export default function FormSection({ fields, heading }) {
 }
 
 FormSection.propTypes = {
+  heading: PropTypes.string.isRequired,
   fields: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
@@ -79,5 +90,4 @@ FormSection.propTypes = {
       initialValue: PropTypes.string.isRequired,
     })
   ).isRequired,
-  heading: PropTypes.string.isRequired,
 };
