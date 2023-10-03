@@ -1,8 +1,10 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import "../styles/FormSection.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
-export default function FormSection({ heading, fields }) {
+export default function FormSection({ fields, heading }) {
   const [submitted, setSubmitted] = useState(false);
   const [fieldData, setFieldData] = useState(
     fields.reduce((acc, field) => {
@@ -10,6 +12,7 @@ export default function FormSection({ heading, fields }) {
       return acc;
     }, {})
   );
+  const [expanded, setExpanded] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -25,57 +28,73 @@ export default function FormSection({ heading, fields }) {
     setFieldData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  if (submitted) {
-    return (
-      <div className="form-section">
-        <h2>{heading}</h2>
-        <div className="data-container">
-          {fields.map((field) => (
-            <div className="data-item" key={field.name}>
-              <span className="data-label">{field.label}:</span>
-              <span className="data-value">{fieldData[field.name]}</span>
-            </div>
-          ))}
-        </div>
-        <div className="button-container">
-          <button type="button" onClick={handleEdit}>
-            Edit
-          </button>
-        </div>
-      </div>
-    );
-  }
+  const handleExpand = () => {
+    setExpanded(!expanded);
+  };
 
   return (
-    <form className="form-section" onSubmit={handleSubmit}>
-      <h2>{heading}</h2>
-      {fields.map((field) => (
-        <div className="input-container" key={field.name}>
-          <label htmlFor={field.name}>{field.label}</label>
-          {field.type === "textarea" ? (
-            <textarea
-              id={field.name}
-              name={field.name}
-              required={field.required}
-              value={fieldData[field.name]}
-              onChange={handleFieldChange}
-            />
+    <div className="form-section">
+      <div className="header">
+        <h2>{heading}</h2>
+        <button className="toggle-button" onClick={handleExpand}>
+          {expanded ? (
+            <FontAwesomeIcon icon={faChevronUp} />
           ) : (
-            <input
-              type={field.type}
-              id={field.name}
-              name={field.name}
-              required={field.required}
-              value={fieldData[field.name]}
-              onChange={handleFieldChange}
-            />
+            <FontAwesomeIcon icon={faChevronDown} />
           )}
-        </div>
-      ))}
-      <div className="button-container">
-        <button type="submit">Save</button>
+        </button>
       </div>
-    </form>
+      {expanded && (
+        <>
+          {!submitted ? (
+            <form onSubmit={handleSubmit}>
+              {fields.map((field) => (
+                <div className="input-container" key={field.name}>
+                  <label htmlFor={field.name}>{field.label}</label>
+                  {field.type === "textarea" ? (
+                    <textarea
+                      id={field.name}
+                      name={field.name}
+                      required={field.required}
+                      value={fieldData[field.name]}
+                      onChange={handleFieldChange}
+                    />
+                  ) : (
+                    <input
+                      type={field.type}
+                      id={field.name}
+                      name={field.name}
+                      required={field.required}
+                      value={fieldData[field.name]}
+                      onChange={handleFieldChange}
+                    />
+                  )}
+                </div>
+              ))}
+              <div className="button-container">
+                <button type="submit">Save</button>
+              </div>
+            </form>
+          ) : (
+            <>
+              <div className="data-container">
+                {fields.map((field) => (
+                  <div className="data-item" key={field.name}>
+                    <span className="data-label">{field.label}:</span>
+                    <span className="data-value">{fieldData[field.name]}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="button-container">
+                <button type="button" onClick={handleEdit}>
+                  Edit
+                </button>
+              </div>
+            </>
+          )}
+        </>
+      )}
+    </div>
   );
 }
 
