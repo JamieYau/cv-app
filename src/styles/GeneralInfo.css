@@ -1,0 +1,33 @@
+.general-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background-color: #ffffff;
+  width: 500px;
+  padding: 1em;
+  border-radius: 16px;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  > label {
+    font-weight: 600;
+  }
+
+  > input {
+    background-color: #eef0f4;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+  }
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+  gap: 1rem;
+}
