@@ -7,16 +7,17 @@
     "form cv";
   min-height: 100vh;
   padding: 1rem;
+  grid-gap: 1rem;
 }
 
 .form-container {
   grid-area: form;
+  display: flex;
+  flex-direction: column;
 }
 
 .cv-container {
   grid-area: cv;
-}
-
-h1 {
-  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
 }

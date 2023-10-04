@@ -1,9 +1,10 @@
 import { PropTypes } from "prop-types";
+import "../styles/CVSection.css";
 
 export default function CVSection({ formData }) {
   return (
     <>
-      <h2>CV Preview</h2>
+      <h2>Preview</h2>
       <div className="cv">
         {Object.entries(formData).map(([sectionName, sectionData]) => (
           <div className="cv-section" key={sectionName}>
