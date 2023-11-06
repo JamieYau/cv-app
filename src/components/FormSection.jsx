@@ -4,7 +4,7 @@ import "../styles/FormSection.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
-export default function FormSection({ fields, heading }) {
+export default function FormSection({ fields, heading, onFormChange }) {
   const [submitted, setSubmitted] = useState(false);
   const [fieldData, setFieldData] = useState(
     fields.reduce((acc, field) => {
@@ -17,6 +17,7 @@ export default function FormSection({ fields, heading }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     setSubmitted(true);
+    onFormChange(heading, fieldData);
   };
 
   const handleEdit = () => {
@@ -109,4 +110,5 @@ FormSection.propTypes = {
       initialValue: PropTypes.string.isRequired,
     })
   ).isRequired,
+  onFormChange: PropTypes.func.isRequired,
 };

@@ -1,5 +1,7 @@
 import "./App.css";
 import FormSection from "./components/FormSection";
+import CVSection from "./components/CVSection";
+import { useState } from "react";
 
 function App() {
   const sections = [
@@ -104,12 +106,38 @@ function App() {
     },
   ];
 
+  const [formData, setFormData] = useState(
+    sections.reduce((acc, section) => {
+      acc[section.heading] = section.fields.reduce((fieldAcc, field) => {
+        fieldAcc[field.label] = field.initialValue;
+        return fieldAcc;
+      }, {});
+      return acc;
+    }, {})
+  );
+
+  const handleFormChange = (sectionName, sectionData) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [sectionName]: sectionData,
+    }));
+  };
+
   return (
     <div className="app">
       <h1>CV Builder</h1>
-      {sections.map((section) => (
-        <FormSection key={section.heading} {...section} />
-      ))}
+      <div className="form-container">
+        {sections.map((section) => (
+          <FormSection
+            key={section.heading}
+            {...section}
+            onFormChange={handleFormChange}
+          />
+        ))}
+      </div>
+      <div className="cv-container">
+        <CVSection formData={formData} />
+      </div>
     </div>
   );
 }
